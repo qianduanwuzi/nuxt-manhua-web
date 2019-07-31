@@ -1,0 +1,28 @@
+stages:
+- install
+- build
+- deploy
+
+cache:
+  paths:
+  - node_modules/
+
+install_job:
+  stage: install
+  script:
+  - yarn install
+
+build_job:
+  stage: build
+  script:
+  - npm run build
+  artifacts:
+    expire_in: 30 mins
+    paths:
+      - .nuxt/
+
+deploy_job:
+  stage: deploy
+  script:
+  - pm2 reload ecosystem.config.js --env production
+  - echo "部署结束."
