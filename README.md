@@ -3,8 +3,11 @@
 > My online Nuxt.js project
 
 # brief
+``` bash
 > 已成功上线
+
 > 8/7 优化了一波，调整页面init时异步数据seo的友好，axios服务端及B端的统一封装
+```
 
 # tips
 > 由于nuxt采用browserHistory 的方式（也就是路由不存在#，多么美观啊！呵呵），访问路由会被当成请求后端，故需要后端处理下（自行百度文档）。
