@@ -36,8 +36,10 @@ module.exports = {
   */
   plugins: [
     { src: '~/plugins/antd-ui.js', ssr: true },
-    { src: '~/plugins/api.js', ssr: false },
-    { src: '~plugins/ga.js', ssr: false }
+    // { src: '~/plugins/api.js', ssr: true },
+     { src: '~/plugins/axios.plugin.js', ssr: true },
+    // { src: '~/plugins/c_over_api_plugin.js', ssr: false }
+    // { src: '~plugins/ga.js', ssr: false }
   ],
 
   /*

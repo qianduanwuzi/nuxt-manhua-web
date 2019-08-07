@@ -3,6 +3,7 @@
     <div class="index_container pc">
       <!-- swiper -->
       <div class="index_swiper">
+        <!-- testarr{{testArr}} -->
         <a-tabs defaultActiveKey="1">
           <a-tab-pane tab="HOT UPDATES" key="1"></a-tab-pane>
         </a-tabs>
@@ -55,7 +56,7 @@
             </div>
           </div>
         </div>
-     
+
         <!-- </div> -->
         <login-reg></login-reg>
       </div>
@@ -112,25 +113,20 @@
 
 
 <script>
+import Vue from 'vue';
 import img1 from "../assets/img/mangariver.png";
 import axios from "axios";
 import LoginReg from "../components/LoginReg";
 export default {
-  // asyncData(context) {
-  //            console.log('68',  context.)
-  //   return axios
-  //     .get("https://admin.mangadrawer.com/api/manga", {params: { page: 1, size: 100 }, headers: {token: ''}})
-  //     .then(res => {
-  //       return { banners: res.data.data.docs };
-  //       // console.log("107...", res);
-  //     });
-  // },
+   async asyncData (context) {
+     const hot_res = await axios.get("https://mangadrawer.com/api/manga", {params: { page: 1, size: 100, hot: true }})
+     const latest_res = await axios.get("https://mangadrawer.com/api/chapters/latest")
+    return { banners: hot_res.data.data.docs, list: latest_res.data.data }
+  },
   components: { LoginReg },
   data() {
     return {
       showBtn: true,
-      banners: [],
-      list: []
     };
   },
   computed: {
@@ -156,31 +152,17 @@ export default {
     }
   },
   methods: {
-    getLatest() {
-      this.$api.get("/chapters/latest").then(res => {
-        if (!res.data.length) {
-          this.$message.error("No Data!");
-        } else this.list = res.data;
-      });
-    },
     go(path) {
       this.$router.push(path);
     },
-    getBanners() {
-      this.$api.get("/manga", { page: 1, size: 100, hot: true }).then(res => {
-        this.banners = res.data.docs;
-      });
-    }
   },
   mounted() {
     // console.log(this.$store)
     this.$nextTick(() => {
-      this.getBanners();
       this.$store.commit(
         "title/SetTitle",
         "Wuxia manga,Xianxia manga,Xiuxian manga"
       );
-      this.getLatest();
     });
   }
 };
@@ -256,7 +238,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  
+
  .latest_chapters_box {
     width: 750px;
   }

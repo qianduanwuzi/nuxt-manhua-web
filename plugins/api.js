@@ -1,3 +1,7 @@
+/*
+  作废
+  陈楠
+*/
 import api from "./axios";
 import Vue from 'vue'
 
@@ -14,12 +18,13 @@ const http = {
     return api.put('/api'+action, params).then(res => res).catch(err => '')
   },
   delete: function(action, params) {
-    return api.delete('/api'+action, { data: params }).then(res => res).catch(err => '')
+    return api.delete('/api'+action, { data: params }).then(res => res)
+    .catch(err => '')
   },
 }
 
 Vue.prototype.$api = http
-
+// window.$api =  http
 // export default http
 
 
