@@ -1,6 +1,6 @@
 # mangariver-web
 
-> My online Nuxt.js project
+> My online Nuxt.js project ---online website:https://mangadrawer.com (旧版，部分seo没优化，8/7已优化代码未再次发布上线)
 
 # brief
 ``` bash
