@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -168,13 +169,13 @@ export default {
       this.imgUrl = "https://mangadrawer.com//images/" + this.imgs[pageNo].pic;
     },
     async getImgs() {
-      const res = await this.$api.get(`/manga/${this.id}/${this.chapter}`);
+      const res = await axios.get(`/api/manga/${this.id}/${this.chapter}`);
       this.imgs = res.data;
       return res;
     },
     //
     async getDetail() {
-      const res = await this.$api.get(`/manga/detail/url-name/${this.$route.params.cartoon}`)
+      const res = await axios.get(`/axios/manga/detail/url-name/${this.$route.params.cartoon}`)
         this.chapters = res.data.chapters;
       this.name = res.data.name;
       this.id = res.data.id
@@ -189,7 +190,7 @@ export default {
       // this.$store.commit('title/SetTitle', res.data.name+' manga')
     },
     addWish() {
-      this.$api.post("/favorite", { mangaId: this.id }).then(res => {
+      axios.post("/favorite", { mangaId: this.id }).then(res => {
         if (res) {
           this.$message.success("Add Success!");
         }

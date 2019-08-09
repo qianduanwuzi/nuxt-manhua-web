@@ -60,23 +60,30 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  async asyncData(context) {
+    const res_list = await axios.get(
+      "https://admin.mangadrawer.com/api/chapters/latest"
+    );
+    return { list: res_list.data.data };
+  },
   data() {
     return {
       list: []
     };
   },
   mounted() {
-    this.getLatest();
+    // this.getLatest();
   },
   methods: {
-    getLatest() {
-      this.$api.get("/chapters/latest").then(res => {
-        if (!res.data.length) {
-          this.$message.error("No Data!");
-        } else this.list = res.data;
-      });
-    }
+    // getLatest() {
+    //   this.$api.get("/chapters/latest").then(res => {
+    //     if (!res.data.length) {
+    //       this.$message.error("No Data!");
+    //     } else this.list = res.data;
+    //   });
+    // }
   }
 };
 </script>

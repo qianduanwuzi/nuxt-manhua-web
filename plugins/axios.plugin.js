@@ -8,7 +8,7 @@ import Vue from 'vue'
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 100000;
 const Cookie = process.client ? require('js-cookie') : undefined
-export default ({ store }) => {
+export default ({ store, route, redirect }) => {
   console.log('17777----', store.state, process.client)
   axios.interceptors.request.use(
     config => {
@@ -29,12 +29,14 @@ export default ({ store }) => {
     res => {
       if (res.status == 200) {
         if (res.data.code != '200') {
+          // console.log('32', res)
           // 令牌过期、失效
           if (res.data.code == '302') {
             // 需要判断客户端/服务端
             if (process.client) {
-              Cookies.remove('_to');
+              Cookie.remove('_to');
               Vue.prototype.$message.error(res.data.msg);
+              return redirect('/')
               Vue.prototype.$nuxt.$store.commit('login/ShowLogin')
             } else { }
             // console.log(Vue.prototype.$nuxt, Vue.prototype.$nuxt.$store)

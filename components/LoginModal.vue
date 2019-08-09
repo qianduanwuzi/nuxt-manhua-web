@@ -3,7 +3,7 @@
     <!-- {{timestamp}} -->
     <div class="input">
       <a-input
-        placeholder="username"
+        placeholder="username123"
         v-model.trim="loginForm.username"
         ref="userNameInput"
         size="large"
@@ -31,8 +31,8 @@
 
 <script>
 import { mapState } from "vuex";
-import Cookies from 'js-cookie'
-
+import Cookie from "js-cookie";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -50,13 +50,14 @@ export default {
   methods: {
     handleOk() {
       this.loading = true;
-      this.$api.post("/login", { ...this.loginForm }).then(res => {
+      return;
+      axios.post("/login", { ...this.loginForm }).then(res => {
         if (res) {
           this.visible = false;
           this.$message.success("login success");
-          localStorage.setItem("token", res.data.data);
-          localStorage.setItem("name", this.loginForm.username);
-          Cookies.set('_to', res.data.data)
+          // localStorage.setItem("token", res.data.data);
+          // localStorage.setItem("name", this.loginForm.username);
+          Cookie.set("_to", res.data.data);
           this.$store.commit("token/SetToken", res.data.data);
           setTimeout(() => {
             window.location.reload();

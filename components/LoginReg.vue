@@ -80,6 +80,8 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -97,7 +99,7 @@ export default {
   },
   methods: {
     signUp() {
-      this.$api.post("/register", { ...this.signForm }).then(res => {
+      axios.post("/api/register", { ...this.signForm }).then(res => {
         if (res) {
           this.activeKey = "1";
           this.showLogin = true;
@@ -106,13 +108,14 @@ export default {
       });
     },
     login() {
-      this.$api.post("/login", { ...this.loginForm }).then(res => {
+      axios.post("/api/login", { ...this.loginForm }).then(res => {
         if (res) {
+          Cookie.set("_to", res.data.data);
           this.$message.success("login success");
-          localStorage.setItem("token", res.data.data);
-          localStorage.setItem("name", this.loginForm.username);
+          // localStorage.setItem("token", res.data.data);
+          // localStorage.setItem("name", this.loginForm.username);
           this.name = this.loginForm.username;
-          // this.$store.commit('token/SetToken', res.data.data)
+          this.$store.commit('token/SetToken', res.data.data)
         }
       });
     },

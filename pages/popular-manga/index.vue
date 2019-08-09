@@ -1,6 +1,8 @@
 <template>
   <div>
     <div class="result_content pc" v-show="list.length">
+        <!-- <div style="width: 100px;height: 100px;overflow-y:auto" @scroll.passive="scrollHandler">111111111111111111偶数默认文字是不会自动换行的</div> -->
+      <!-- <nuxt-link @click.prevent="clickTest" to="/">test</nuxt-link> -->
       <a-tabs defaultActiveKey="1">
         <a-tab-pane tab="POPULAR MANGA" key="1"></a-tab-pane>
       </a-tabs>
@@ -9,7 +11,7 @@
           <a-row style="font-size: 12px;font-family: Lato,sans-serif">
             <a-col :span="8">
               <nuxt-link :to="`/${one.url_name}`">
-                <img :src="'/images/'+one.cover" style="width: 190px;height: 250px">
+                <img :src="'/images/'+one.cover" style="width: 190px;height: 250px" />
               </nuxt-link>
             </a-col>
             <a-col :span="16">
@@ -80,6 +82,7 @@
         :total="count"
         @change="pageNum => getList(pageNum)"
       />
+
     </div>
     <div class="mb m_result_content white_bg" v-show="list.length">
       <a-tabs defaultActiveKey="1">
@@ -90,7 +93,7 @@
           <a-row>
             <a-col :span="10">
               <nuxt-link :to="`/${one.url_name}`">
-                <img :src="'/images/'+one.cover" style="width: 100%">
+                <img :src="'/images/'+one.cover" style="width: 100%" />
               </nuxt-link>
             </a-col>
           </a-row>
@@ -172,33 +175,28 @@
 <script>
 import axios from "axios";
 export default {
-  //     asyncData(context) {
-  //         // console.log('68', context.store.state.token.token)
-  //     return axios
-  //       .get("https://admin.mangadrawer.com/api/manga/popular/list", {params:{ page: 1, size: 20 },headers: {token: ''}})
-  //       .then(res => {
-  //         return { list: res.data.data.docs };
-  //       });
-  //   },
+  async asyncData(context) {
+    const res_list = await axios.get(
+      "https://admin.mangadrawer.com/api/manga/popular/list",
+      { params: { page: 1, size: 20 } }
+    );
+    return { list: res_list.data.data.docs, count: res_list.data.data.count };
+  },
   data() {
     return {
-      list: [],
-      count: 0
+
     };
   },
   mounted() {
-    this.getList();
     this.$store.commit("title/SetTitle", "Popular Manga");
   },
   methods: {
-    getList(page_num = 1) {
-      this.$api
-        .get("/manga/popular/list", { page: page_num, size: 20 })
-        .then(res => {
-          this.list = res.data.docs;
-          this.count = res.data.count;
-        });
+    clickTest() {
+      alert(1)
     }
+    // scrollHandler(e) {
+    //   console.log('196', e.target.scrollTop)
+    // }
   }
 };
 </script>

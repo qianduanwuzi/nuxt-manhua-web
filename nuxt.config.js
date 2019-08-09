@@ -73,6 +73,9 @@ module.exports = {
       }
     }
   },
+  router: {
+    // middleware: 'authenticated'
+  },
 
   // router: {
   //   extendRoutes (routes, resolve) {

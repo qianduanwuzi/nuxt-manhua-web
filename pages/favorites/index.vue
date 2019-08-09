@@ -66,27 +66,35 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+   async asyncData(context) {
+    const res_list = await axios.get(
+      "https://admin.mangadrawer.com/api/favorite",
+      {params: { page: 1, size: 100 }}
+    );
+    return { list: res_list.data.data.docs };
+  },
   data() {
     return {
-      list: [],
+      // list: [],
       loading: false
     };
   },
   mounted() {
-    this.getFa();
+    // this.getFa();
   },
   methods: {
-    getFa() {
-      this.$api.get("/favorite", { page: 1, size: 100 }).then(res => {
-        if (res) {
-          this.list = res.data.docs;
-        }
-      });
-    },
+    // getFa() {
+    //   this.$api.get("/favorite", { page: 1, size: 100 }).then(res => {
+    //     if (res) {
+    //       this.list = res.data.docs;
+    //     }
+    //   });
+    // },
     deleteFav(id) {
       this.loading = true;
-      this.$api.delete(`/favorite/${id}`).then(res => {
+      axios.delete(`/api/favorite/${id}`).then(res => {
         if (res) {
           this.loading = false;
           this.$message.success("Delete Success!");
