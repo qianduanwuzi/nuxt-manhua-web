@@ -18,7 +18,9 @@
   > 很多人对于asyncData钩子里使用axios时request header如何带token有疑问，我这边主要是针对axios拦截器做了处理，登录时将token放在cookie里，同时放vuex里，通过process.client区分用户端还是服务端加上token
 
 # tips
-> 由于nuxt采用browserHistory 的方式（也就是路由不存在#，多么美观啊！呵呵），访问路由会被当成请求后端，故需要后端处理下（自行百度文档）。
+> 由于源码暴露，实属不易，放个打赏码~，有问题随时call我
+ ![image](https://github.com/qianduanwuzi/img/blob/master/static/wx-ds.jpg)
+
 
 
 ## Build Setup
