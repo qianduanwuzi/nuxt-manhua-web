@@ -3,7 +3,7 @@
     <!-- {{timestamp}} -->
     <div class="input">
       <a-input
-        placeholder="username123"
+        placeholder="username"
         v-model.trim="loginForm.username"
         ref="userNameInput"
         size="large"
@@ -24,7 +24,14 @@
     </div>
     <template slot="footer">
       <a-button key="back" @click="visible = false">Cancel</a-button>
-      <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        :loading="loading"
+        @click="handleOk"
+      >
+        Submit
+      </a-button>
     </template>
   </a-modal>
 </template>
@@ -50,8 +57,7 @@ export default {
   methods: {
     handleOk() {
       this.loading = true;
-      return;
-      axios.post("/login", { ...this.loginForm }).then(res => {
+      axios.post("/api/login", { ...this.loginForm }).then(res => {
         if (res) {
           this.visible = false;
           this.$message.success("login success");
@@ -74,7 +80,6 @@ export default {
   }
 };
 </script>
-
 
 <style>
 .input {

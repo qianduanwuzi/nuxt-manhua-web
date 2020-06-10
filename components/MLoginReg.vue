@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -97,7 +98,7 @@ export default {
   },
   methods: {
     signUp() {
-      this.$api.post("/register", { ...this.signForm }).then(res => {
+      axios.post("/api/register", { ...this.signForm }).then(res => {
         if (res) {
           this.activeKey = "1";
           this.showLogin = true;
@@ -106,11 +107,10 @@ export default {
       });
     },
     login() {
-      this.$api.post("/login", { ...this.loginForm }).then(res => {
+      axios.post("/api/login", { ...this.loginForm }).then(res => {
         if (res) {
           this.$message.success("login success");
           this.name = this.loginForm.username;
-          alert(this.loginForm.username)
           localStorage.setItem("token", res.data.data);
           localStorage.setItem("name", this.loginForm.username);
           // this.$store.commit('token/SetToken', res.data.data)

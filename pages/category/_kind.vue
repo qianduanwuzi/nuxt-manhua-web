@@ -138,13 +138,6 @@
 <script>
 import axios from "axios";
 export default {
-  //  async asyncData(context) {
-  //   const res_list = await axios.get(
-  //     `https://admin.mangadrawer.com/api//categories/${this.kind}`,
-  //     {params: { page: 1, size: 100 }}
-  //   );
-  //   return { list: res_list.data.data.docs };
-  // },
   data() {
     return {
       list: []
@@ -161,8 +154,8 @@ export default {
   },
   methods: {
     getList() {
-      this.$api
-        .get(`/categories/${this.kind}`, { page: 1, size: 100 })
+      axios
+        .get(`/api/categories/${this.kind}`, { page: 1, size: 100 })
         .then(res => {
           this.list = res.data.docs;
         });

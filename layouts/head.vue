@@ -24,8 +24,8 @@
           :notFoundContent="fetching ? undefined : null"
         >
           <a-spin v-if="fetching" slot="notFoundContent" size="small"/>
-          <a-select-option v-for="d in data" :key="d.name">
-            <nuxt-link :to="`/${d.name}`" class="filter_cartoon flex-align">
+          <a-select-option v-for="d in data" :key="d.name" :value="d.url_name">
+            <nuxt-link :to="`/${d.url_name}`" class="filter_cartoon flex-align">
               <img :src="'/images/'+d.cover" alt class="car_img">
               <span class="name" :title="d.name">{{d.name}}</span>
             </nuxt-link>
@@ -64,8 +64,8 @@
           @blur="showMSearch = false"
         >
           <a-spin v-if="fetching" slot="notFoundContent" size="small"/>
-          <a-select-option v-for="d in data" :key="d.name">
-            <nuxt-link :to="`/${d.name}`" class="m_filter_cartoon flex-align">
+          <a-select-option v-for="d in data" :key="d.name" :value="d.url_name">
+            <nuxt-link :to="`/${d.url_name}`" class="m_filter_cartoon flex-align">
               <img :src="'/images/'+d.cover" alt class="m_car_img" style="width: 8vw;height: 10vw">
               <span class="name" :title="d.name" style="margin-left: 5px;width: 85%; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{d.name}}</span>
             </nuxt-link>
@@ -90,6 +90,7 @@
 <script>
 import cates from "./cate";
 import debounce from "lodash/debounce";
+import axios from "axios";
 export default {
   props: {
     showsus: {
@@ -124,8 +125,8 @@ export default {
       const fetchId = this.lastFetchId;
       this.data = [];
       this.fetching = true;
-      this.$api.get("/search", { page: 1, size: 100, keyword: value }).then(res => {
-        this.data = res.data.docs;
+      axios.get("/api/search", {params: { page: 1, size: 100, keyword: value }}).then(res => {
+        this.data = res.data.data.docs;
         this.fetching = false;
       });
       // fetch('https://randomuser.me/api/?results=5')
@@ -143,11 +144,15 @@ export default {
       //   });
     },
     handleChange(value) {
-      Object.assign(this, {
-        value,
-        data: [],
-        fetching: false
-      });
+      this.fetching = false
+      this.value = []
+      this.data = []
+      this.$router.push({ name: 'cartoon', params: { cartoon: value[0].key} })
+      // Object.assign(this, {
+      //   value,
+      //   data: [],
+      //   fetching: false
+      // });
     }
   }
 };

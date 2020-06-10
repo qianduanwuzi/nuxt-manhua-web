@@ -6,10 +6,10 @@
       </a-tabs>
       <a-row style="font-size: 14px">
         <a-col :span="8">
-          <img :src="'/images/'+form.cover" style="width: 190px;height: 250px" />
+          <img :src="'/images/'+form.cover" style="width: 190px;height: 250px">
         </a-col>
         <a-col :span="16" style="font-size: 12px; font-family: Lato,sans-serif">
-          <!--          <div class="title" style="font-size: 13px">{{form.name}}</div>-->
+<!--          <div class="title" style="font-size: 13px">{{form.name}}</div>-->
           <a-row class="align_margin">
             <a-col span="6">
               <label for>Alternative Name:</label>
@@ -59,7 +59,7 @@
           </a-row>
           <a-row class="align_margin">
             <a-button type="primary" @click="addToFavo(form.id)">
-              <a-icon type="heart" />Add to favorites
+              <a-icon type="heart"/>Add to favorites
             </a-button>
           </a-row>
         </a-col>
@@ -84,11 +84,11 @@
       <a-tabs defaultActiveKey="2">
         <a-tab-pane :tab="form.name" key="2">
           <div>
-            <img :src="'/images/'+form.cover" style="width: 100%" />
+            <img :src="'/images/'+form.cover" style="width: 100%">
           </div>
           <a-row style="font-size: 14px">
             <a-col :span="24">
-              <!--              <div class="title">{{form.name}}</div>-->
+<!--              <div class="title">{{form.name}}</div>-->
               <a-row class="align_margin">
                 <a-col span="6">
                   <label for>Alternative Name:</label>
@@ -138,7 +138,7 @@
               </a-row>
               <a-row class="align_margin">
                 <a-button type="primary" @click="addToFavo(form.id)" size="small">
-                  <a-icon type="heart" />Add to favorites
+                  <a-icon type="heart"/>Add to favorites
                 </a-button>
               </a-row>
             </a-col>
@@ -168,42 +168,35 @@
 <script>
 import axios from "axios";
 export default {
+  async asyncData(context) {
+    // const res_list = await axios.get(
+    //   "https://admin.mangadrawer.com/api/favorite",
+    //   {params: { page: 1, size: 100 }}
+    // );
+    // return { list: res_list.data.data.docs };
+      const res = await axios
+        .get(`https://admin.mangadrawer.com/api/manga/detail/url-name/${context.params.cartoon}`)
+          return { form: res.data.data,  metaData: {title: res.data.data.name + ' manga', content: res.data.data.name + ' manga'}};
+          // this.metaData.title = res.data.data.name + ' manga';
+          // this.metaData.content = res.data.data.name + ' manga';
+          // this.$store.commit("title/SetTitle", res.data.name + " manga");
+  },
   data() {
     return {
-      form: {},
-      metaData: {
-        title: "MangaDrawer Detail",
-        content: ""
-      }
+      
     };
   },
-  head() {
+  head () {
     return {
       title: this.metaData.title,
       meta: [
-        {
-          hid: "detail-desc",
-          name: "description",
-          content: this.metaData.content
-        }
+        { hid: 'detail-desc', name: 'description', content: this.metaData.content }
       ]
-    };
+    }
   },
   mounted() {
-    // console.log("165");
-    this.getDetail();
   },
   methods: {
-    getDetail() {
-      axios
-        .get(`/api/manga/detail/url-name/${this.$route.params.cartoon}`)
-        .then(res => {
-          this.form = res.data.data;
-          this.metaData.title = res.data.data.name + " manga";
-          this.metaData.content = res.data.data.name + " manga";
-          // this.$store.commit("title/SetTitle", res.data.name + " manga");
-        });
-    },
     addToFavo(id) {
       axios.post("/api/favorite", { mangaId: id }).then(res => {
         if (res) {

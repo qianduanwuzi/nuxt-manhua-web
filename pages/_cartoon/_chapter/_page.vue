@@ -1,5 +1,7 @@
 <template>
   <div>
+    <iframe src="https://rcm-cn.amazon-adsystem.com/e/cm?o=28&p=11&l=ur1&category=office&banner=0885Y3YWNJRAXGZ7J9R2&f=ifr&linkID=16ece7b57105816d3efc8e8baf85c24c&t=freemangawebs-23&tracking_id=freemangawebs-23" width="120" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;position: fixed;top: 50%;left: calc(50% - 600px);transform: translateY(-50%)" frameborder="0"></iframe>
+    <iframe src="https://rcm-cn.amazon-adsystem.com/e/cm?o=28&p=11&l=ur1&category=office&banner=1Z9C7ZNEZBKNMPZBKAR2&f=ifr&linkID=d60100dfee8010e0e77d6678ed13b31a&t=freemangawebs-23&tracking_id=freemangawebs-23" width="120" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;position: fixed;top: 50%;right: calc(50% - 600px);transform: translateY(-50%)" frameborder="0"></iframe>
     <div class="cartoon_detail_box pc">
       <div class="header_box">
         <div class="ope_box">
@@ -25,7 +27,7 @@
           </div>
           <div class="switch_middle flex-align">
             <a-select style="width: 150px" class="each_ope_item" v-model="chapterDeval">
-              <a-select-option :value="index+1" v-for="(one, index) in chapters" :key="index">
+              <a-select-option :value="one" v-for="(one, index) in chapters" :key="index">
                 <nuxt-link :to="`/${routerInfo.cartoon}/${one}/1`">Chapter {{one}}</nuxt-link>
               </a-select-option>
             </a-select>
@@ -52,7 +54,11 @@
         <div v-show="!imgUrl">Cartoon to be updated.</div>
       </div>
     </div>
+    <div class="mb">
+      <iframe src="https://rcm-cn.amazon-adsystem.com/e/cm?o=28&p=42&l=ur1&category=diy&banner=1GNMHMW1M8JQRT4CRR82&f=ifr&linkID=7de2f1df34e36a95a6d9f402ec47c9a1&t=freemangawebs-23&tracking_id=freemangawebs-23" width="234" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;width: 300px; margin: 6vw auto 0;display: block" frameborder="0"></iframe>
+    </div>
     <div class="mb mb_cartoon_detail_box white_bg">
+      <!-- <iframe src="https://rcm-cn.amazon-adsystem.com/e/cm?o=28&p=42&l=ur1&category=diy&banner=1GNMHMW1M8JQRT4CRR82&f=ifr&linkID=7de2f1df34e36a95a6d9f402ec47c9a1&t=freemangawebs-23&tracking_id=freemangawebs-23" width="234" height="60" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe> -->
       <div class="m_cartoon_info">
         <div class="theme-color" style="margin-bottom: 1vw">{{name}}-{{chapter}}</div>
         <a-button type="danger" @click="addWish" size="small">
@@ -97,22 +103,32 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
+  async asyncData(context) {
+    // const res_list = await axios.get(
+    //   "https://admin.mangadrawer.com/api/manga",
+    //   { params: { page: 1, size: 1000 } }
+    // );
+    // return { list: res_list.data.data.docs };
+    const res = await axios.get(`https://admin.mangadrawer.com/api/manga/detail/url-name/${context.params.cartoon}`)
+      const result = res.data.data
+      return { chapters: result.chapters, name:  result.name, id: result.id,  metaData:{title: result.name + ' manga', content: result.brief + ' manga'} };
+  },
   data() {
     return {
       imgs: [],
-      chapters: [],
+      // chapters: [],
       imgUrl: "",
-      name: "",
+      // name: "",
       deVal: 1,
-      chapterDeval: 1,
+      // chapterDeval: 1,
       showimgope: false,
-      id: -1,
-      metaData: {
-        title: 'MangaDrawer Detail',
-        content: ''
-      }
+      // id: -1,
+      // metaData: {
+      //   title: 'MangaDrawer Detail',
+      //   content: ''
+      // }
     };
   },
   head () {
@@ -141,10 +157,31 @@ export default {
     },
     curPageNo() {
       return this.$route.params.page;
+    },
+    chapterDeval() {
+      return Number(this.$route.params.chapter)
     }
   },
   mounted() {
-    console.log(this.$route);
+    const _this = this
+    // document.addEventListener('keydown', function(e) {
+    //     let key = window.event.keyCode;
+    //     if (key == 37) {
+    //         _this.prevPage();
+    //     }
+    //     if (key == 39) {
+    //         _this.nextPage();
+    //     }
+    // })
+    document.onkeydown = function(e) {
+        let key = window.event.keyCode;
+        if (key == 37) {
+            _this.prevPage();
+        }
+        if (key == 39) {
+            _this.nextPage();
+        }
+    };
   },
   methods: {
     nextPage() {
@@ -166,31 +203,28 @@ export default {
       }
     },
     changePage(pageNo = 1) {
-      this.imgUrl = "https://mangadrawer.com//images/" + this.imgs[pageNo].pic;
+      this.imgUrl = "https://mangadrawer.com/images/" + this.imgs[pageNo].pic;
     },
     async getImgs() {
       const res = await axios.get(`/api/manga/${this.id}/${this.chapter}`);
-      this.imgs = res.data;
+      this.imgs = res.data.data;
       return res;
     },
     //
     async getDetail() {
-      const res = await axios.get(`/axios/manga/detail/url-name/${this.$route.params.cartoon}`)
-        this.chapters = res.data.chapters;
-      this.name = res.data.name;
-      this.id = res.data.id
-       // this.$store.commit('title/SetTitle', res.data.name+' manga')
-      this.metaData.title = res.data.name + ' manga';
-      this.metaData.content = res.data.name + ' manga';
+      const res = await axios.get(`/api/manga/detail/url-name/${this.$route.params.cartoon}`)
+      const result = res.data.data
+        this.chapters = result.chapters;
+      this.name = result.name;
+      this.id = result.id
+       // this.$store.commit('title/SetTitle', result.name+' manga')
+      this.metaData.title = result.name + ' manga';
+      console.log(result.brief)
+      this.metaData.content = result.brief + ' manga';
       return res
-
-      // const res = await this.$api.get(`/manga/${this.id}`);
-      // this.chapters = res.data.chapters;
-      // this.name = res.data.name;
-      // this.$store.commit('title/SetTitle', res.data.name+' manga')
     },
     addWish() {
-      axios.post("/favorite", { mangaId: this.id }).then(res => {
+      axios.post("/api/favorite", { mangaId: this.id }).then(res => {
         if (res) {
           this.$message.success("Add Success!");
         }
@@ -201,16 +235,18 @@ export default {
     $route: {
       deep: true,
       handler(v) {
-         this.getDetail().then(res => {
-          this.chapterDeval = Number(this.$route.params.chapter);
+        //  this.getDetail().then(res => {
           this.getImgs().then(res => {
             this.deVal = Number(this.$route.params.page);
             this.changePage(this.deVal - 1);
           });
-        });
+        // });
       },
       immediate: true
     }
+  },
+  beforeDestroy() {
+    document.onkeydown = undefined
   }
 };
 </script>

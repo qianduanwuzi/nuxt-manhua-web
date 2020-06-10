@@ -288,6 +288,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import config from "./config";
 export default {
   data() {
@@ -333,11 +334,12 @@ export default {
       if (!param.type) delete param.type;
       if (!param.status) delete param.status;
       param.categories = param.categories.join(",");
-      this.$api.get("/manga", param).then(res => {
+      axios.get("/api/manga", {params: param}).then(res => {
+        console.log(res)
         this.searchLoading = false;
-        if (!res.data.count) {
+        if (!res.data.data.count) {
           this.$message.error("No Data!");
-        } else this.list = res.data.docs;
+        } else this.list = res.data.data.docs;
       });
     }
   }

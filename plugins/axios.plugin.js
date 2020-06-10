@@ -9,7 +9,6 @@ axios.defaults.withCredentials = true;
 axios.defaults.timeout = 100000;
 const Cookie = process.client ? require('js-cookie') : undefined
 export default ({ store, route, redirect }) => {
-  console.log('17777----', store.state, process.client)
   axios.interceptors.request.use(
     config => {
       if (!whiteList.some(one => { config.url.indexOf(one) >= 0 })) { //没匹配到白名单
@@ -36,7 +35,6 @@ export default ({ store, route, redirect }) => {
             if (process.client) {
               Cookie.remove('_to');
               Vue.prototype.$message.error(res.data.msg);
-              return redirect('/')
               Vue.prototype.$nuxt.$store.commit('login/ShowLogin')
             } else { }
             // console.log(Vue.prototype.$nuxt, Vue.prototype.$nuxt.$store)
