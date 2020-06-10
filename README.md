@@ -19,7 +19,7 @@
 
 # tips
 > 由于源码暴露，实属不易，放个打赏码~，有问题随时call我
- ![image](https://github.com/qianduanwuzi/img/blob/master/static/wx-ds.jpg)
+<img src="https://github.com/qianduanwuzi/img/blob/master/static/wx-ds.jpg" width="200" height="200" />
 
 
 
