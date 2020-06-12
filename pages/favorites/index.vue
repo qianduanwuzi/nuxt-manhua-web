@@ -70,7 +70,7 @@ import axios from "axios";
 export default {
    async asyncData(context) {
     const res_list = await axios.get(
-      "https://admin.mangadrawer.com/api/favorite",
+      "https://mangadrawer.com/api/favorite",
       {params: { page: 1, size: 100 }}
     );
     return { list: res_list.data.data.docs };

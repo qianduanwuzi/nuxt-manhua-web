@@ -38,7 +38,7 @@ import axios from "axios";
 export default {
   async asyncData(context) {
     const res_list = await axios.get(
-      "https://admin.mangadrawer.com/api/manga",
+      "https://mangadrawer.com/api/manga",
       { params: { page: 1, size: 100 } }
     );
     return { list: res_list.data.data.docs };

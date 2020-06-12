@@ -111,7 +111,7 @@ export default {
     //   { params: { page: 1, size: 1000 } }
     // );
     // return { list: res_list.data.data.docs };
-    const res = await axios.get(`https://admin.mangadrawer.com/api/manga/detail/url-name/${context.params.cartoon}`)
+    const res = await axios.get(`https://mangadrawer.com/api/manga/detail/url-name/${context.params.cartoon}`)
       const result = res.data.data
       return { chapters: result.chapters, name:  result.name, id: result.id,  metaData:{title: result.name + ' manga', content: result.brief + ' manga'} };
   },

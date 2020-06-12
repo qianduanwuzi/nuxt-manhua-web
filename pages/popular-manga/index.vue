@@ -177,7 +177,7 @@ import axios from "axios";
 export default {
   async asyncData(context) {
     const res_list = await axios.get(
-      "https://admin.mangadrawer.com/api/manga/popular/list",
+      "https://mangadrawer.com/api/manga/popular/list",
       { params: { page: 1, size: 20 } }
     );
     return { list: res_list.data.data.docs, count: res_list.data.data.count };

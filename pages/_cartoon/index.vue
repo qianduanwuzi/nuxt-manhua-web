@@ -175,7 +175,7 @@ export default {
     // );
     // return { list: res_list.data.data.docs };
       const res = await axios
-        .get(`https://admin.mangadrawer.com/api/manga/detail/url-name/${context.params.cartoon}`)
+        .get(`https://mangadrawer.com/api/manga/detail/url-name/${context.params.cartoon}`)
           return { form: res.data.data,  metaData: {title: res.data.data.name + ' manga', content: res.data.data.name + ' manga'}};
           // this.metaData.title = res.data.data.name + ' manga';
           // this.metaData.content = res.data.data.name + ' manga';
