@@ -16,7 +16,7 @@
     "cross-env": "^5.2.0",
     "js-cookie": "^2.2.1",
     "lodash.debounce": "^4.0.8",
-    "nuxt": "^2.4.0",
+    "nuxt": "^2.15.8",
     "storejs": "^1.0.25",
     "vue-waterfall-easy": "^2.4.3"
   },
